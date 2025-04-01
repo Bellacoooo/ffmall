@@ -42,15 +42,12 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-
-	resp := &auth.Empty{}
-	resp, err = service.NewRegisterService(ctx, c).Run(&req)
+	_, err = service.NewRegisterService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-
-	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+	c.Redirect(http.StatusFound, []byte("/ping"))
 }
 
 // Logout .

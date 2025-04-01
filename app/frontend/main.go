@@ -41,6 +41,7 @@ func main() {
 	h.LoadHTMLGlob("template/*") // 加载模板文件
 	h.Static("/static", "./")    // 加载静态文件
 	// add a ping route to test
+	//路由 GET /ping 到func
 	h.GET("/ping", func(c context.Context, ctx *app.RequestContext) {
 		var resp = make(map[string]any)
 		items := []map[string]any{
@@ -69,6 +70,10 @@ func main() {
 		ctx.HTML(consts.StatusOK, "sign-in", resp)
 	})
 
+	h.GET("/sign-up", func(c context.Context, ctx *app.RequestContext) {
+		ctx.HTML(consts.StatusOK, "sign-up", nil)
+	})
+	
 	router.GeneratedRegister(h) // 注册路由
 
 	h.Spin()

@@ -50,7 +50,7 @@ func (h *LoginService) Run(req *auth.LoginReq) (resp string, err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	session := sessions.Default(h.RequestContext)
+	session := sessions.Default(h.RequestContext)   //把响应写入请求上下文，发给浏览器
 	session.Set("user_ID", login_resp.UserId)
 	_ = session.Save()
 
