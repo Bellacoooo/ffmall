@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package frontend.home;
+
+option go_package = "frontend/home";
+
+import "api.proto";
+
+message Empty {};
+
+service HomeService {
+    //函数名，参数，返回值
+    rpc Home(Empty) returns(Empty){  
+        //路由:方法名，路径
+        option (api.get) = "/";
+    }
+}
