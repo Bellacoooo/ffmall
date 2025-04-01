@@ -13,6 +13,7 @@ import (
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/client/callopt"
 	"github.com/hertz-contrib/sessions"
+	consul "github.com/kitex-contrib/registry-consul"
 )
 
 type LoginService struct {
@@ -33,7 +34,11 @@ func (h *LoginService) Run(req *auth.LoginReq) (resp string, err error) {
 	// 调用User服务的Login方法
 	// rpc_resp := user.Login(req)
 	// user_id := rpc_resp.UserID
-	c, err := userservice.NewClient("user", client.WithHostPorts("0.0.0.0:8888"))
+	r, err := consul.NewConsulResolver("127.0.0.1:8500")
+	if err != nil {
+		log.Fatal(err)
+	}
+	c, err := userservice.NewClient("user", client.WithResolver(r))
 	if err != nil {
 		log.Fatal(err)
 	}

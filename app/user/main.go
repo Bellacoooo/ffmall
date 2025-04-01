@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net"
 	"time"
 
@@ -12,6 +13,7 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
+	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
@@ -19,9 +21,7 @@ import (
 func main() {
 	dal.Init()
 	opts := kitexInit()
-
 	svr := userservice.NewServer(new(UserServiceImpl), opts...)
-
 	err := svr.Run()
 	if err != nil {
 		klog.Error(err.Error())
@@ -58,5 +58,13 @@ func kitexInit() (opts []server.Option) {
 	server.RegisterShutdownHook(func() {
 		asyncWriter.Sync()
 	})
+	r, err := consul.NewConsulRegister("127.0.0.1:8500")
+	if err != nil {
+		log.Fatal(err)
+	}
+	opts = append(opts, server.WithRegistry(r))
+	opts = append(opts, server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{
+		ServiceName: "user",
+	}))
 	return
 }
