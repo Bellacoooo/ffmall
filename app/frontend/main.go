@@ -45,9 +45,9 @@ func main() {
 	h.GET("/ping", func(c context.Context, ctx *app.RequestContext) {
 		var resp = make(map[string]any)
 		items := []map[string]any{
-			{"Name": "T-shirt-1", "Price": 100, "Picture": "/static/image/t-shirt-1.jpeg"},
-			{"Name": "T-shirt-2", "Price": 110, "Picture": "/static/image/t-shirt-1.jpeg"},
-			{"Name": "T-shirt-3", "Price": 120, "Picture": "/static/image/t-shirt-2.jpeg"},
+			{"Name": "T-shirt-1", "Price": 100, "Picture": "/static/image/t-shirt-1.jpeg", "Id": 0},
+			{"Name": "T-shirt-2", "Price": 110, "Picture": "/static/image/t-shirt-1.jpeg", "Id": 1},
+			{"Name": "T-shirt-3", "Price": 120, "Picture": "/static/image/t-shirt-2.jpeg", "Id": 2},
 			{"Name": "T-shirt-4", "Price": 130, "Picture": "/static/image/notebook.jpeg"},
 			{"Name": "T-shirt-5", "Price": 140, "Picture": "/static/image/t-shirt-1.jpeg"},
 			{"Name": "T-shirt-6", "Price": 150, "Picture": "/static/image/t-shirt.jpeg"},
@@ -73,7 +73,6 @@ func main() {
 	h.GET("/sign-up", func(c context.Context, ctx *app.RequestContext) {
 		ctx.HTML(consts.StatusOK, "sign-up", nil)
 	})
-	
 	router.GeneratedRegister(h) // 注册路由
 
 	h.Spin()
