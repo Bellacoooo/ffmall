@@ -27,7 +27,7 @@ func GetProduct(ctx context.Context, c *app.RequestContext) {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-
+	// .item.Picture => resp["item"]["Picture"]
 	c.HTML(consts.StatusOK, "product", resp)
 }
 
